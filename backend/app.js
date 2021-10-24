@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const authJwt = require('./helpers/jwt')
+const errorHandler = require('./helpers/errorHandler')
 require('dotenv/config')
 
 //routers
@@ -20,6 +21,7 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.options('*', cors())
 app.use(authJwt)
+app.use(errorHandler)
 
 const api = process.env.API_URL 
 
