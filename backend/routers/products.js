@@ -3,6 +3,35 @@ const express = require('express')
 const { Category } = require('../models/category')
 const router = express.Router()
 const mongoose = require('mongoose')
+const multer = require('multer')
+
+//mimeType
+const FILE_TYPE_MAP = {
+    'image/png' : 'png',
+    'image/jpeg' : 'jpeg',
+    'image/jpg' : 'jpg'
+}
+
+//Image storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const isValid = FILE_TYPE_MAP[file.mimetype]
+        let uploadError = new Error('invalid image type')
+
+        if(isValid) {
+            uploadError = null
+        }
+      cb(uploadError, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+      const fileName = file.originalname.split(' ').join('-')
+      const extension = FILE_TYPE_MAP[file.mimetype]
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+  })
+  
+  const uploadOptions = multer({ storage: storage })
+
 
 //Get all the products and specifc products by their categories
 router.get(`/`, async (req,res) =>{
@@ -32,17 +61,22 @@ router.get(`/:id`, async (req,res) =>{
 
 
 //Post product
-router.post(`/`, async (req,res) =>{
+router.post(`/`, uploadOptions.single('image'), async (req,res) =>{
     const category = await Category.findById(req.body.category)
     if(!category) {
         res.status(400).send('the catrgory that u selected is not exist!')
     }
-    
+    const file = req.file
+    if(!file) {
+        res.status(400).send('no image selected!')
+    }
+    const fileName = req.file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     let product = new Product({
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: `${basePath}${fileName}`,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,
