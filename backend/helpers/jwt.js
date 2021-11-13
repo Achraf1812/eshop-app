@@ -9,6 +9,7 @@ function authJwt() {
         isRevoked : isRevoked
     }).unless({ // see and use some of the features of my app without authentification
         path: [
+            {url : /\/public\/uploads(.*)/ , methods: ['GET', 'OPTIONS']},//use all products APIs using regeler expressions
             {url : /\/api\/v1\/products(.*)/ , methods: ['GET', 'OPTIONS']},//use all products APIs using regeler expressions
             {url : /\/api\/v1\/categories(.*)/ , methods: ['GET', 'OPTIONS']},//use all categories APIs using regeler expressions
             `${api}/users/login`,
