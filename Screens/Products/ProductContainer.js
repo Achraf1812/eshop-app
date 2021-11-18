@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {View, Text, StyleSheet, ActivityIndicator, FlatList} from 'react-native'
-
+import {View,  StyleSheet, ActivityIndicator, FlatList} from 'react-native'
+import {Container, Header, Icon, Item, Input, Text} from 'native-base'
 import ProductList from './ProductList'
 
 const data = require('../../assets/data/products.json')
@@ -19,7 +19,16 @@ const ProductContainer = () => {
     }, [])
 
     return (
-        <View>
+       <Container>
+           <Header searchBar rounded > 
+               <Item>
+                   <Icon name='ios-search'/>
+                   <Input
+                     placeholder="Search"
+                   />
+               </Item>
+           </Header>
+            <View>
             <Text>Product Container </Text>
             <FlatList 
               data = {products}
@@ -30,6 +39,8 @@ const ProductContainer = () => {
             
             />
         </View>
+       </Container>
+       
     )
 }
 
