@@ -13,10 +13,11 @@ app.options('*', cors())
 
 
 //middleware
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(morgan('tiny'))
-app.use(authJwt)
+app.use(authJwt())
 app.use(errorHandler)
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'))
 
 //routers
 const categoriesRoutes = require('./routers/categories')
