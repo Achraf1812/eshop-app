@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {View,  StyleSheet, ActivityIndicator, FlatList} from 'react-native'
-import {Container, Header, Icon, Item, Input, Text} from 'native-base'
+import {useTheme ,Container, Header, Icon, Item, Input, Text} from 'native-base'
 import ProductList from './ProductList'
 
 const data = require('../../assets/data/products.json')
 
 
 const ProductContainer = () => {
+    const theme = useTheme();
 
     const [products, setProducts] = useState([])
 
