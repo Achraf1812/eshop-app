@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {View,  StyleSheet, ActivityIndicator, FlatList} from 'react-native'
-import {NativeBaseProvider ,Container, Header, Icon, Item, Input, Text} from 'native-base'
+import {Container, Header, Icon, Item, Input, Text} from 'native-base'
 import ProductList from './ProductList'
 
 const data = require('../../assets/data/products.json')
@@ -19,7 +19,7 @@ const ProductContainer = () => {
     }, [])
 
     return (
-        <NativeBaseProvider> 
+        
        <Container>
            <Header searchBar rounded > 
                <Item>
@@ -41,7 +41,6 @@ const ProductContainer = () => {
             />
         </View>
        </Container>
-       </NativeBaseProvider>
     )
 }
 
